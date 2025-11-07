@@ -6,7 +6,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #ffffff;
   padding: 20px;
 }
 
@@ -91,7 +91,7 @@
 
 .submitButton {
   @include button-base;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #111827;
   color: #ffffff;
   padding: 14px;
   font-size: 16px;
@@ -112,5 +112,3 @@
     cursor: not-allowed;
   }
 }
-
-

@@ -1,32 +1,34 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { Product } from '@prisma/client';
-import styles from './ProductCard.module.scss';
+import Link from "next/link";
+import styles from "./ProductCard.module.scss";
 
 interface ProductCardProps {
-  product: Product;
+  id: number;
+  title: string;
+  price: number;
+  category: string;
+  image: string;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
-  const priceValue = Number(product.price);
+export default function ProductCard({
+  id,
+  title,
+  price,
+  category,
+  image,
+}: ProductCardProps) {
   return (
-    <Link href={`/products/${product.id}`} className={styles.card}>
-      <div className={styles.imageContainer}>
-        <img src={product.image} alt={product.title} className={styles.image} />
-        {!product.availability && (
-          <div className={styles.unavailable}>Out of Stock</div>
-        )}
+    <Link href={`/products/${id}`} className={styles.card}>
+      <div className={styles.thumb}>
+        <img src={image} alt={title} />
       </div>
-      <div className={styles.content}>
-        <h3 className={styles.title}>{product.title}</h3>
-        <p className={styles.category}>{product.category}</p>
-        <p className={styles.price}>
-          {Number.isFinite(priceValue) ? `$${priceValue.toFixed(2)}` : '—'}
-        </p>
+      <div className={styles.cardBody}>
+        <div className={styles.title}>{title}</div>
+        <div className={styles.meta}>{category}</div>
+        <div className={styles.price}>${Number(price).toFixed(2)}</div>
       </div>
     </Link>
   );
 }
-
 

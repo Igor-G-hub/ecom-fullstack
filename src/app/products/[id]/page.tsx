@@ -1,89 +1,116 @@
-"use client";
-
 import Link from "next/link";
-import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
-import {
-  useGetProductByIdQuery,
-  useDeleteProductMutation,
-} from "@/store/api/productsApi";
+import { notFound } from "next/navigation";
+import ProductActions from "@/components/ProductActions";
+import RelatedProductsSlider from "@/components/RelatedProductsSlider";
 import styles from "./page.module.scss";
 
-interface ProductDetailProps {
-  params: { id: string };
+// --- Types ----------------------------------------------------
+
+type Product = {
+  id: number;
+  title: string;
+  price: number | string;
+  category: string;
+  image: string;
+  description: string;
+  availability: boolean;
+};
+
+// --- Server Component ------------------------------------------------------------
+
+async function fetchProduct(id: number): Promise<Product | null> {
+  // Use internal Docker network URL if available, otherwise use public URL
+  const API_BASE_URL =
+    process.env.API_INTERNAL_URL ||
+    process.env.NEXT_PUBLIC_API_URL ||
+    "http://localhost:3001";
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/products/${id}`, {
+      cache: "no-store", // Always fetch fresh data
+    });
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        return null;
+      }
+      throw new Error(`Failed to fetch product: ${response.statusText}`);
+    }
+
+    const product: Product = await response.json();
+    return product;
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    return null;
+  }
 }
 
-export default function ProductDetailPage({ params }: ProductDetailProps) {
-  const productId = Number(params.id);
-  const router = useRouter();
-  const [deleteError, setDeleteError] = useState<string | null>(null);
-  const {
-    data: product,
-    isLoading,
-    isError,
-    error,
-  } = useGetProductByIdQuery(productId, {
-    skip: Number.isNaN(productId),
-  });
-  const [deleteProduct, { isLoading: isDeleting }] = useDeleteProductMutation();
+async function fetchRelatedProducts(
+  id: number,
+  limit: number = 4
+): Promise<Product[]> {
+  // Use internal Docker network URL if available, otherwise use public URL
+  const API_BASE_URL =
+    process.env.API_INTERNAL_URL ||
+    process.env.NEXT_PUBLIC_API_URL ||
+    "http://localhost:3001";
 
-  const price = useMemo(() => {
-    if (!product) return null;
-    const value =
-      typeof product.price === "string" ? Number(product.price) : product.price;
-    return Number.isFinite(value) ? value : null;
-  }, [product]);
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/products/${id}/related?limit=${limit}`,
+      {
+        cache: "no-store", // Always fetch fresh data
+      }
+    );
 
-  const handleEdit = () => {
-    router.push(`/products/${productId}/edit`);
-  };
-
-  const handleDelete = async () => {
-    if (!product || Number.isNaN(productId)) return;
-
-    try {
-      setDeleteError(null);
-      await deleteProduct(productId).unwrap();
-      router.push("/");
-    } catch (err) {
-      console.error("Failed to delete product", err);
-      setDeleteError("Failed to delete product. Please try again.");
+    if (!response.ok) {
+      return [];
     }
-  };
+
+    const responseJson: { products: Product[] } = await response.json();
+
+    return responseJson.products || [];
+  } catch (error) {
+    console.error("Error fetching related products:", error);
+    return [];
+  }
+}
+
+interface ProductDetailProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function ProductDetailPage({
+  params,
+}: ProductDetailProps) {
+  const { id } = await params;
+  const productId = Number(id);
 
   if (Number.isNaN(productId)) {
     return (
-      <div className={styles.container}>
-        <div className={styles.error}>Invalid product identifier</div>
-        <Link href="/" className={styles.backLink}>
-          ← Back to Products
-        </Link>
-      </div>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <div className={styles.container}>
-        <div className={styles.loading}>Loading product...</div>
-      </div>
-    );
-  }
-
-  if (isError || !product) {
-    return (
-      <div className={styles.container}>
-        <div className={styles.error}>
-          {error && "status" in error
-            ? `Unable to load product (${error.status})`
-            : "Product not found"}
+      <div className={styles.page}>
+        <div className={styles.container}>
+          <div className={styles.error}>Invalid product identifier</div>
+          <Link href="/" className={styles.backLink}>
+            ← Back to Products
+          </Link>
         </div>
-        <Link href="/" className={styles.backLink}>
-          ← Back to Products
-        </Link>
       </div>
     );
   }
+
+  const product = await fetchProduct(productId);
+
+  if (!product) {
+    notFound();
+  }
+
+  // Fetch related products in parallel
+  const relatedProducts = await fetchRelatedProducts(productId, 4);
+
+  const price =
+    typeof product.price === "string" ? Number(product.price) : product.price;
+  const displayPrice = Number.isFinite(price) ? price : null;
 
   return (
     <div className={styles.page}>
@@ -106,10 +133,14 @@ export default function ProductDetailPage({ params }: ProductDetailProps) {
           <div className={styles.infoSection}>
             <h1 className={styles.title}>{product.title}</h1>
             <div className={styles.priceRow}>
-              {price !== null && (
-                <span className={styles.price}>${price.toFixed(2)}</span>
+              {displayPrice !== null && (
+                <span className={styles.price}>${displayPrice.toFixed(2)}</span>
               )}
-              <span className={styles.stockBadge}>
+              <span
+                className={`${styles.stockBadge} ${
+                  product.availability ? styles.inStock : styles.outOfStock
+                }`}
+              >
                 {product.availability ? "In Stock" : "Out of Stock"}
               </span>
             </div>
@@ -118,28 +149,13 @@ export default function ProductDetailPage({ params }: ProductDetailProps) {
               <p className={styles.description}>{product.description}</p>
             </div>
 
-            <div className={styles.actions}>
-              <button
-                type="button"
-                className={styles.editButton}
-                onClick={handleEdit}
-              >
-                Update Product
-              </button>
-              <button
-                type="button"
-                className={styles.deleteButton}
-                onClick={handleDelete}
-                disabled={isDeleting}
-              >
-                {isDeleting ? "Deleting..." : "Delete Product"}
-              </button>
-            </div>
-            {deleteError && (
-              <div className={styles.deleteError}>{deleteError}</div>
-            )}
+            <ProductActions productId={productId} product={product} />
           </div>
         </div>
+
+        {relatedProducts.length > 0 && (
+          <RelatedProductsSlider products={relatedProducts} />
+        )}
       </div>
     </div>
   );

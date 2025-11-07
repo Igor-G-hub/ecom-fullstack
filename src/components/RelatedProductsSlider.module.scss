@@ -1,0 +1,39 @@
+@import "styles/variables";
+@import "styles/mixins";
+
+$text: #111827;
+
+.section {
+  margin-top: 48px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: $text;
+  margin: 0 0 24px 0;
+  letter-spacing: -0.02em;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.productItem {
+  width: 100%;
+}
+

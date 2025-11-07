@@ -66,7 +66,6 @@ class ProductController {
     res: Response,
     next: NextFunction
   ): Promise<void> {
-    console.log("createProduct", req.body);
     try {
       const data: CreateProductDto = req.body;
 

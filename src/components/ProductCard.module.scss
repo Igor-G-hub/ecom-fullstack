@@ -1,72 +1,74 @@
-@import 'styles/variables';
-@import 'styles/mixins';
+@import "styles/variables";
+@import "styles/mixins";
+
+$panel: #ffffff;
+$text: #111827;
+$muted: #6b7280;
+$shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.08);
 
 .card {
-  display: flex;
-  flex-direction: column;
-  background: $white;
+  background: $panel;
   border-radius: 12px;
+  box-shadow: $shadow;
   overflow: hidden;
-  @include card-shadow;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  cursor: pointer;
   text-decoration: none;
   color: inherit;
-  transition: transform 0.2s;
+  display: block;
+  padding: 12px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0; // Prevents grid overflow
+  box-sizing: border-box;
 
   &:hover {
-    transform: translateY(-4px);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 }
 
-.imageContainer {
+.thumb {
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 1;
   position: relative;
-  width: 100%;
-  padding-top: 75%; // 4:3 aspect ratio
-  background: $background;
+  background: #f3f4f6;
+  border-radius: 8px;
   overflow: hidden;
+  margin-bottom: 10px;
+  min-width: 0; // Prevents overflow
+
+  img {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    object-fit: cover;
+    display: block;
+  }
 }
 
-.image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.unavailable {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background: rgba($error-color, 0.9);
-  color: $white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-.content {
-  padding: 1rem;
+.cardBody {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin: 0 0 0.5rem 0;
-  color: $text-color;
+  font-size: 14px;
+  font-weight: 700;
+  color: $text;
+  margin: 0 0 4px 0;
 }
 
-.category {
-  font-size: 0.875rem;
-  color: $text-secondary;
-  margin: 0 0 0.5rem 0;
-  text-transform: capitalize;
+.meta {
+  display: none;
 }
 
 .price {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: $primary-color;
+  font-size: 14px;
+  font-weight: 400;
+  color: $muted;
   margin: 0;
 }

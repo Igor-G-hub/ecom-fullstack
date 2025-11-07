@@ -1,0 +1,39 @@
+@import "styles/variables";
+@import "styles/mixins";
+
+$muted: #6b7280;
+
+.mainContent {
+  min-width: 0; // Prevents grid overflow
+  overflow: hidden; // Ensures content stays within grid column
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  min-width: 0; // Prevents grid overflow
+  width: 100%;
+  padding: 12px;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: $muted;
+  font-size: 14px;
+}
+

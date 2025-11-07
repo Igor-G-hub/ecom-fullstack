@@ -113,11 +113,18 @@ $radius: 16px;
 .stockBadge {
   display: inline-block;
   padding: 6px 12px;
-  background: #10b981;
   color: #ffffff;
   border-radius: 6px;
   font-size: 13px;
   font-weight: 600;
+}
+
+.inStock {
+  background: #10b981;
+}
+
+.outOfStock {
+  background: #dc2626;
 }
 
 .descriptionSection {
