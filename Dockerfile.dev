@@ -1,0 +1,21 @@
+FROM node:20-slim AS base
+WORKDIR /app
+
+# Install OpenSSL libraries, PostgreSQL client, netcat, and iputils-ping for connection testing
+RUN apt-get update && apt-get install -y openssl postgresql-client netcat-openbsd iputils-ping && rm -rf /var/lib/apt/lists/*
+
+# Install dependencies
+COPY package.json package-lock.json* ./
+RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
+
+# Generate Prisma client (no build needed for dev)
+ARG DATABASE_URL="postgresql://postgres:postgres@localhost:5433/postgres?schema=public"
+ENV DATABASE_URL=$DATABASE_URL
+
+RUN npx prisma generate
+
+EXPOSE 3000
+
+# Run dev server (will be overridden by docker-compose.dev.yml command)
+CMD ["npm", "run", "dev"]
+

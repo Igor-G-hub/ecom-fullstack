@@ -20,7 +20,7 @@ $radius: 12px;
 
 .container {
   width: 100%;
-  max-width: 1400px;
+  max-width: 1700px;
   margin: 0 auto;
 }
 
@@ -119,7 +119,7 @@ $radius: 12px;
   }
 
   label {
-    display: block;
+    display: flex;
     font-size: 14px;
     font-weight: 700;
     color: $text;
@@ -231,7 +231,7 @@ $radius: 12px;
 
 .rangePair input[type="range"] {
   width: 100%;
-  height: 4px;
+  height: 10px;
   border-radius: 2px;
   background: $border;
   outline: none;
