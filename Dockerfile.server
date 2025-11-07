@@ -1,0 +1,22 @@
+FROM node:20-slim
+
+WORKDIR /app
+
+# Install OpenSSL libraries, PostgreSQL client, and netcat for Prisma
+RUN apt-get update && apt-get install -y openssl postgresql-client netcat-openbsd && rm -rf /var/lib/apt/lists/*
+
+# Install dependencies
+COPY package.json package-lock.json* ./
+RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
+
+# Copy source code
+COPY . .
+
+# Generate Prisma client
+RUN npx prisma generate
+
+EXPOSE 3001
+
+# Start Express server (database connection will be handled by application retry logic)
+CMD ["npm", "run", "server"]
+
