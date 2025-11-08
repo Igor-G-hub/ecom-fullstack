@@ -1,13 +1,8 @@
 @import "styles/variables";
 @import "styles/mixins";
 
-$panel: #ffffff;
-$border: #e5e7eb;
-$text: #111827;
-$muted: #6b7280;
-
 .sidebar {
-  background: $panel;
+  background: $card;
   padding: 0;
   border-radius: 0;
   display: flex;
@@ -16,7 +11,7 @@ $muted: #6b7280;
 }
 
 .field {
-  margin-bottom: 24px;
+  margin-bottom: $spacing-6;
 
   &:last-child {
     margin-bottom: 0;
@@ -24,10 +19,10 @@ $muted: #6b7280;
 
   label {
     display: flex;
-    font-size: 14px;
-    font-weight: 700;
-    color: $text;
-    margin-bottom: 12px;
+    @include text-sm;
+    font-weight: $font-weight-semibold;
+    color: $foreground;
+    // margin-bottom: $spacing-3;
     text-align: left;
   }
 }
@@ -40,11 +35,11 @@ $muted: #6b7280;
 
 .searchIcon {
   position: absolute;
-  left: 12px;
-  font-size: 16px;
+  left: $spacing-3;
+  font-size: $font-size-base;
   pointer-events: none;
   z-index: 1;
-  color: $muted;
+  color: $muted-foreground;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -53,91 +48,82 @@ $muted: #6b7280;
 }
 
 .searchInput {
+  @include input-base;
   width: 100%;
-  padding: 10px 12px 10px 36px;
-  border: 1px solid $border;
-  border-radius: 6px;
-  font-size: 14px;
-  background: #fff;
-  color: $text;
-  transition: border-color 0.15s ease;
-
-  &:focus {
-    outline: none;
-    border-color: #111827;
-  }
-
-  &::placeholder {
-    color: $muted;
-  }
+  padding-left: $spacing-9;
 }
 
 .checkboxList {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: $spacing-2_5;
 }
 
 .checkbox {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: $spacing-2_5;
   cursor: pointer;
-  font-size: 14px;
+  @include text-sm;
   user-select: none;
-  min-height: 20px;
-  font-weight: 400;
-  color: $text;
+  min-height: $spacing-5;
+  font-weight: $font-weight-normal;
+  color: $foreground;
+  padding: $spacing-2 $spacing-2_5;
+  border-radius: $radius;
+  background-color: transparent;
+  transition: background-color 0.15s ease, color 0.15s ease;
 
   input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
+    width: $spacing-4;
+    height: $spacing-4;
     cursor: pointer;
-    accent-color: #111827;
+    accent-color: $primary;
     flex-shrink: 0;
     margin: 0;
   }
 
   span {
     flex: 1;
-    font-weight: 400;
-    line-height: 1.4;
+    font-weight: $font-weight-normal;
+    line-height: $line-height-normal;
   }
 
   &:hover {
-    color: $text;
+    background-color: $accent;
+    color: $accent-foreground;
   }
 
   input[type="checkbox"]:checked + span {
-    font-weight: 500;
+    font-weight: $font-weight-medium;
   }
 }
 
 .rangeWrap {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: $spacing-2_5;
 }
 
 .rangeLabels {
   display: flex;
   justify-content: space-between;
-  font-size: 14px;
-  color: $text;
-  margin-bottom: 8px;
-  font-weight: 400;
+  @include text-sm;
+  color: $foreground;
+  margin-bottom: $spacing-2;
+  font-weight: $font-weight-normal;
 }
 
 .rangePair {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: $spacing-2_5;
 }
 
 .rangePair input[type="range"] {
   width: 100%;
-  height: 10px;
-  border-radius: 2px;
+  height: $spacing-2_5;
+  border-radius: $spacing-0_5;
   background: $border;
   outline: none;
   -webkit-appearance: none;
@@ -145,16 +131,16 @@ $muted: #6b7280;
   transition: background 0.15s ease;
 
   &:hover {
-    background: #d1d5db;
+    background: $muted;
   }
 
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 16px;
-    height: 16px;
+    width: $spacing-4;
+    height: $spacing-4;
     border-radius: 50%;
-    background: #111827;
+    background: $primary;
     cursor: pointer;
     transition: transform 0.15s ease;
 
@@ -164,10 +150,10 @@ $muted: #6b7280;
   }
 
   &::-moz-range-thumb {
-    width: 16px;
-    height: 16px;
+    width: $spacing-4;
+    height: $spacing-4;
     border-radius: 50%;
-    background: #111827;
+    background: $primary;
     cursor: pointer;
     border: none;
     transition: transform 0.15s ease;
@@ -179,33 +165,20 @@ $muted: #6b7280;
 }
 
 .selectedPrice {
-  font-size: 14px;
-  color: $text;
+  @include text-sm;
+  color: $foreground;
   text-align: left;
-  padding: 4px 0 0 0;
+  padding: $spacing-1 0 0 0;
   background: transparent;
-  font-weight: 400;
+  font-weight: $font-weight-normal;
 }
 
 .field select {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid $border;
-  border-radius: 6px;
-  font-size: 14px;
-  background: #fff;
-  color: $text;
+  @include input-base;
   cursor: pointer;
-  transition: border-color 0.15s ease;
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23111827' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 12px center;
-  padding-right: 36px;
-
-  &:focus {
-    outline: none;
-    border-color: #111827;
-  }
+  background-position: right $spacing-3 center;
+  padding-right: $spacing-9;
 }
-

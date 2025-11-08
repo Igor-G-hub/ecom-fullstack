@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useUpdateProductMutation } from "@/store/api/productsApi";
@@ -122,11 +123,34 @@ export default function EditProductDialog({
     }
   }, [product]);
 
-  if (!isOpen || !product) return null;
+  const [isClosing, setIsClosing] = React.useState(false);
+  const [shouldRender, setShouldRender] = React.useState(isOpen && !!product);
+
+  useEffect(() => {
+    if (isOpen && product) {
+      setShouldRender(true);
+      setIsClosing(false);
+    } else if (shouldRender) {
+      setIsClosing(true);
+      const timer = setTimeout(() => {
+        setShouldRender(false);
+        setIsClosing(false);
+      }, 200); // Match animation duration
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen, product, shouldRender]);
+
+  if (!shouldRender || !product) return null;
 
   return (
-    <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.dialog} onClick={(e) => e.stopPropagation()}>
+    <div
+      className={`${styles.overlay} ${isClosing ? styles.overlayClosing : ""}`}
+      onClick={onClose}
+    >
+      <div
+        className={`${styles.dialog} ${isClosing ? styles.dialogClosing : ""}`}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className={styles.header}>
           <h2>Edit Product</h2>
           <button className={styles.closeButton} onClick={onClose}>

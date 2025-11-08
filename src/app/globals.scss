@@ -1,6 +1,6 @@
 @import 'styles/variables';
 
-// Global SASS styles
+// Global Reset
 * {
   box-sizing: border-box;
   padding: 0;
@@ -11,12 +11,13 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: $font-inter;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: $background;
-  color: $text-color;
+  color: $foreground;
+  font-size: $font-size-base;
+  line-height: $line-height-normal;
 }
 
 a {
@@ -26,4 +27,10 @@ a {
 
 button {
   font-family: inherit;
+}
+
+// Focus visible styles (shadcn/ui accessibility)
+:focus-visible {
+  outline: 2px solid $ring;
+  outline-offset: 2px;
 }

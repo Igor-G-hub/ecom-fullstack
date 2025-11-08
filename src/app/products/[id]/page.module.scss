@@ -1,75 +1,64 @@
 @import "styles/variables";
 @import "styles/mixins";
 
-$bg: #f9fafb;
-$panel: #ffffff;
-$border: #e5e7eb;
-$text: #111827;
-$muted: #6b7280;
-$shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.08);
-$radius: 16px;
-
 .page {
   min-height: 100vh;
-  background: $bg;
-  padding: 24px 0;
+  background: $background;
+  padding: $spacing-6 0;
 }
 
 .container {
   margin: 0 auto;
   max-width: 1120px;
-  padding: 0 16px;
+  padding: 0 $spacing-4;
 }
 
 .breadcrumb {
-  margin-bottom: 20px;
-  font-size: 14px;
-  color: $muted;
+  margin-bottom: $spacing-5;
+  @include text-sm;
+  color: $muted-foreground;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: $spacing-2;
 
   a {
-    color: $muted;
+    color: $muted-foreground;
     text-decoration: none;
     transition: color 0.15s ease;
 
     &:hover {
-      color: $text;
+      color: $foreground;
     }
   }
 
   .separator {
-    color: $muted;
+    color: $muted-foreground;
   }
 
   span:last-child {
-    color: $text;
+    color: $foreground;
   }
 }
 
 .productCard {
-  background: $panel;
-  border: 1px solid $border;
-  border-radius: $radius;
-  box-shadow: $shadow;
-  padding: 32px;
+  @include card;
+  padding: $spacing-8;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
+  gap: $spacing-10;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    padding: 24px;
-    gap: 24px;
+    padding: $spacing-6;
+    gap: $spacing-6;
   }
 }
 
 .imageSection {
   width: 100%;
   aspect-ratio: 1;
-  background: #f3f4f6;
-  border-radius: 12px;
+  background: $muted;
+  border-radius: $radius;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -85,138 +74,125 @@ $radius: 16px;
 .infoSection {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: $spacing-5;
 }
 
 .title {
-  font-size: 28px;
-  font-weight: 700;
-  color: $text;
+  @include text-3xl;
+  font-weight: $font-weight-semibold;
+  color: $foreground;
   margin: 0;
   letter-spacing: -0.02em;
-  line-height: 1.2;
+  line-height: $line-height-tight;
 }
 
 .priceRow {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: $spacing-4;
 }
 
 .price {
-  font-size: 24px;
-  font-weight: 600;
-  color: $text;
+  @include text-2xl;
+  font-weight: $font-weight-semibold;
+  color: $foreground;
   letter-spacing: -0.01em;
 }
 
 .stockBadge {
   display: inline-block;
-  padding: 6px 12px;
-  color: #ffffff;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 600;
+  padding: $spacing-1_5 $spacing-3;
+  color: $destructive-foreground;
+  border-radius: $radius-sm;
+  @include text-xs;
+  font-weight: $font-weight-semibold;
 }
 
 .inStock {
-  background: #10b981;
+  background: hsl(142, 76%, 36%);
+  color: white;
 }
 
 .outOfStock {
-  background: #dc2626;
+  background: $destructive;
+  color: $destructive-foreground;
 }
 
 .descriptionSection {
-  margin-top: 8px;
+  margin-top: $spacing-2;
 }
 
 .descriptionLabel {
-  font-size: 18px;
-  font-weight: 600;
-  color: $text;
-  margin: 0 0 12px 0;
+  @include text-lg;
+  font-weight: $font-weight-semibold;
+  color: $foreground;
+  margin: 0 0 $spacing-3 0;
   letter-spacing: -0.01em;
 }
 
 .description {
-  font-size: 15px;
-  color: $text;
-  line-height: 1.6;
+  @include text-base;
+  color: $foreground;
+  line-height: $line-height-relaxed;
   margin: 0;
 }
 
 .actions {
   display: flex;
-  gap: 12px;
+  gap: $spacing-3;
   flex-wrap: wrap;
   margin-top: auto;
 }
 
-.editButton,
-.deleteButton {
-  padding: 10px 18px;
-  border-radius: 8px;
-  border: none;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
-}
-
 .editButton {
-  background: #111827;
-  color: #ffffff;
-
-  &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(17, 24, 39, 0.2);
-  }
+  @include button-primary;
 }
 
 .deleteButton {
-  background: #f3f4f6;
-  color: #b91c1c;
+  @include button-outline;
+  color: $destructive;
+  border-color: $destructive;
 
   &:hover:not(:disabled) {
-    background: #fee2e2;
+    background-color: $destructive;
+    color: $destructive-foreground;
   }
 
   &:disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
   }
 }
 
 .deleteError {
-  margin-top: 16px;
-  color: #b91c1c;
-  font-size: 14px;
+  margin-top: $spacing-4;
+  color: $destructive;
+  @include text-sm;
 }
 
 .error {
   text-align: center;
-  padding: 60px 20px;
-  color: $muted;
-  font-size: 16px;
+  padding: $spacing-16 $spacing-5;
+  color: $muted-foreground;
+  @include text-base;
 }
 
 .loading {
   text-align: center;
-  padding: 60px 20px;
-  color: $muted;
-  font-size: 16px;
+  padding: $spacing-16 $spacing-5;
+  color: $muted-foreground;
+  @include text-base;
 }
 
 .backLink {
   display: inline-block;
-  margin-top: 20px;
-  color: $muted;
+  margin-top: $spacing-5;
+  color: $muted-foreground;
   text-decoration: none;
-  font-size: 14px;
+  @include text-sm;
   transition: color 0.15s ease;
 
   &:hover {
-    color: $text;
+    color: $foreground;
   }
 }

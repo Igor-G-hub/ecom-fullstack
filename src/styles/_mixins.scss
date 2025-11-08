@@ -1,21 +1,192 @@
 @import "styles/variables";
 
+// Button Mixins (shadcn/ui style)
 @mixin button-base {
-  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-2;
+  font-family: $font-inter;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  line-height: $line-height-none;
+  border-radius: $radius;
   cursor: pointer;
-  border: none;
-  transition: all 0.2s;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  user-select: none;
 }
 
+@mixin button-primary {
+  @include button-base;
+  background-color: $primary;
+  color: $primary-foreground;
+  border: none;
+  padding: $spacing-2_5 $spacing-4;
+
+  &:hover:not(:disabled) {
+    background-color: $primary-hover;
+  }
+
+  &:active:not(:disabled) {
+    opacity: 0.9;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@mixin button-secondary {
+  @include button-base;
+  background-color: $secondary;
+  color: $secondary-foreground;
+  border: none;
+  padding: $spacing-2_5 $spacing-4;
+
+  &:hover:not(:disabled) {
+    background-color: $accent;
+  }
+
+  &:active:not(:disabled) {
+    opacity: 0.9;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@mixin button-outline {
+  @include button-base;
+  background-color: transparent;
+  color: $foreground;
+  border: 1px solid $border;
+  padding: $spacing-2_5 $spacing-4;
+
+  &:hover:not(:disabled) {
+    background-color: $accent;
+    color: $accent-foreground;
+  }
+
+  &:active:not(:disabled) {
+    opacity: 0.9;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@mixin button-ghost {
+  @include button-base;
+  background-color: transparent;
+  color: $foreground;
+  border: none;
+  padding: $spacing-2_5 $spacing-4;
+
+  &:hover:not(:disabled) {
+    background-color: $accent;
+    color: $accent-foreground;
+  }
+
+  &:active:not(:disabled) {
+    opacity: 0.9;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// Input Mixins (shadcn/ui style)
 @mixin input-base {
-  font-family: inherit;
-  font-size: 14px;
-  padding: 8px 12px;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  transition: border-color 0.2s;
+  display: flex;
+  width: 100%;
+  font-family: $font-inter;
+  font-size: $font-size-sm;
+  line-height: $line-height-normal;
+  color: $foreground;
+  background-color: $background;
+  border: 1px solid $input;
+  border-radius: $radius;
+  padding: $spacing-2_5 $spacing-3;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:focus {
+    outline: none;
+    border-color: $ring;
+    box-shadow: 0 0 0 2px hsla(222.2, 84%, 4.9%, 0.2);
+  }
+
+  &::placeholder {
+    color: $muted-foreground;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    background-color: $muted;
+  }
+}
+
+// Card Mixins (shadcn/ui style)
+@mixin card {
+  background-color: $card;
+  color: $card-foreground;
+  border-radius: $radius;
+  border: 1px solid $border;
+  box-shadow: $shadow;
 }
 
 @mixin card-shadow {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.08);
+  box-shadow: $shadow;
+}
+
+@mixin card-shadow-md {
+  box-shadow: $shadow-md;
+}
+
+@mixin card-shadow-lg {
+  box-shadow: $shadow-lg;
+}
+
+// Text Mixins
+@mixin text-xs {
+  font-size: $font-size-xs;
+  line-height: $line-height-normal;
+}
+
+@mixin text-sm {
+  font-size: $font-size-sm;
+  line-height: $line-height-normal;
+}
+
+@mixin text-base {
+  font-size: $font-size-base;
+  line-height: $line-height-normal;
+}
+
+@mixin text-lg {
+  font-size: $font-size-lg;
+  line-height: $line-height-normal;
+}
+
+@mixin text-xl {
+  font-size: $font-size-xl;
+  line-height: $line-height-normal;
+}
+
+@mixin text-2xl {
+  font-size: $font-size-2xl;
+  line-height: $line-height-tight;
+}
+
+@mixin text-3xl {
+  font-size: $font-size-3xl;
+  line-height: $line-height-tight;
 }

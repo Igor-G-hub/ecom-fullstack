@@ -1,30 +1,23 @@
 @import "styles/variables";
 @import "styles/mixins";
 
-$panel: #ffffff;
-$text: #111827;
-$muted: #6b7280;
-$shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.08);
-
 .card {
-  background: $panel;
-  border-radius: 12px;
-  box-shadow: $shadow;
+  @include card;
   overflow: hidden;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   text-decoration: none;
   color: inherit;
   display: block;
-  padding: 12px;
+  padding: $spacing-3;
   width: 100%;
   max-width: 100%;
-  min-width: 0; // Prevents grid overflow
+  min-width: 0;
   box-sizing: border-box;
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+    box-shadow: $shadow-lg;
   }
 }
 
@@ -33,11 +26,11 @@ $shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.08);
   max-width: 100%;
   aspect-ratio: 1;
   position: relative;
-  background: #f3f4f6;
-  border-radius: 8px;
+  background: $muted;
+  border-radius: $radius;
   overflow: hidden;
-  margin-bottom: 10px;
-  min-width: 0; // Prevents overflow
+  margin-bottom: $spacing-2_5;
+  min-width: 0;
 
   img {
     width: 100%;
@@ -52,14 +45,14 @@ $shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.08);
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: $spacing-1;
 }
 
 .title {
-  font-size: 14px;
-  font-weight: 700;
-  color: $text;
-  margin: 0 0 4px 0;
+  @include text-sm;
+  font-weight: $font-weight-semibold;
+  color: $foreground;
+  margin: 0 0 $spacing-1 0;
 }
 
 .meta {
@@ -67,8 +60,8 @@ $shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .price {
-  font-size: 14px;
-  font-weight: 400;
-  color: $muted;
+  @include text-sm;
+  font-weight: $font-weight-normal;
+  color: $muted-foreground;
   margin: 0;
 }

@@ -1,5 +1,5 @@
-@import 'styles/variables';
-@import 'styles/mixins';
+@import "styles/variables";
+@import "styles/mixins";
 
 .overlay {
   position: fixed;
@@ -12,67 +12,121 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  padding: 1rem;
+  padding: $spacing-4;
+  opacity: 0;
+  animation: overlayFadeIn 0.15s ease-out forwards;
+  backdrop-filter: blur(4px);
+}
+
+.overlayClosing {
+  animation: overlayFadeOut 0.15s ease-in forwards;
 }
 
 .dialog {
-  background: $white;
-  border-radius: 12px;
+  background: $card;
+  border-radius: $radius;
   width: 100%;
   max-width: 600px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  box-shadow: $shadow-xl;
+  transform: scale(0.95) translateY(10px);
+  opacity: 0;
+  animation: dialogSlideIn 0.2s ease-out 0.05s forwards;
+}
+
+.dialogClosing {
+  animation: dialogSlideOut 0.15s ease-in forwards;
+}
+
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes overlayFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes dialogSlideIn {
+  from {
+    transform: scale(0.95) translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes dialogSlideOut {
+  from {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.95) translateY(10px);
+    opacity: 0;
+  }
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem;
-  border-bottom: 1px solid $border-color;
+  padding: $spacing-6;
+  border-bottom: 1px solid $border;
 
   h2 {
     margin: 0;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: $text-color;
+    @include text-2xl;
+    font-weight: $font-weight-semibold;
+    color: $foreground;
   }
 }
 
 .closeButton {
   background: none;
   border: none;
-  font-size: 2rem;
-  color: $text-secondary;
+  font-size: $font-size-2xl;
+  color: $muted-foreground;
   cursor: pointer;
   padding: 0;
-  width: 2rem;
-  height: 2rem;
+  width: $spacing-8;
+  height: $spacing-8;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
-  transition: background-color 0.2s;
+  border-radius: $radius-sm;
+  transition: background-color 0.15s ease;
 
   &:hover {
-    background-color: $background;
+    background-color: $accent;
   }
 }
 
 .form {
-  padding: 1.5rem;
+  padding: $spacing-6;
 }
 
 .formGroup {
-  margin-bottom: 1.5rem;
+  margin-bottom: $spacing-3;
 
   label {
     display: block;
-    font-size: 14px;
-    font-weight: 700;
-    color: $text;
-    margin-bottom: 12px;
+    @include text-sm;
+    font-weight: $font-weight-semibold;
+    color: $foreground;
+    margin-bottom: $spacing-3;
     text-align: left;
   }
 }
@@ -80,30 +134,7 @@
 .input,
 .textarea,
 .select {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  font-size: 14px;
-  background: #fff;
-  color: $text;
-  transition: border-color 0.15s ease;
-  font-family: inherit;
-
-  &:focus {
-    outline: none;
-    border-color: #111827;
-  }
-
-  &::placeholder {
-    color: $muted;
-  }
-
-  &:disabled {
-    background: #f3f4f6;
-    cursor: not-allowed;
-    opacity: 0.6;
-  }
+  @include input-base;
 }
 
 .textarea {
@@ -116,70 +147,29 @@
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23111827' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 12px center;
-  padding-right: 36px;
+  background-position: right $spacing-3 center;
+  padding-right: $spacing-9;
 }
 
 .error {
-  color: $error-color;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
+  color: $destructive;
+  @include text-sm;
+  margin-top: $spacing-1;
 }
 
 .actions {
   display: flex;
-  gap: 1rem;
+  gap: $spacing-4;
   justify-content: flex-end;
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid $border-color;
-}
-
-.cancelButton,
-.submitButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 10px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  transition: opacity 0.2s ease;
-  font-family: inherit;
-}
-
-.submitButton {
-  background: #111827;
-  color: #ffffff;
-  border: 0;
-
-  &:hover:not(:disabled) {
-    opacity: 0.9;
-  }
-
-  &:active:not(:disabled) {
-    opacity: 0.8;
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
+  margin-top: $spacing-8;
+  padding-top: $spacing-6;
+  border-top: 1px solid $border;
 }
 
 .cancelButton {
-  background: transparent;
-  color: #111827;
-  border: 1px solid #111827;
+  @include button-outline;
+}
 
-  &:hover {
-    background: #f3f4f6;
-    opacity: 0.9;
-  }
-
-  &:active {
-    opacity: 0.8;
-  }
+.submitButton {
+  @include button-primary;
 }

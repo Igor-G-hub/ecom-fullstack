@@ -1,20 +1,18 @@
 @import "styles/variables";
 @import "styles/mixins";
 
-$muted: #6b7280;
-
 .mainContent {
-  min-width: 0; // Prevents grid overflow
-  overflow: hidden; // Ensures content stays within grid column
+  min-width: 0;
+  overflow: hidden;
 }
 
 .products {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  min-width: 0; // Prevents grid overflow
+  gap: $spacing-4;
+  min-width: 0;
   width: 100%;
-  padding: 12px;
+  padding: $spacing-3;
 
   @media (max-width: 1200px) {
     grid-template-columns: repeat(3, 1fr);
@@ -32,8 +30,7 @@ $muted: #6b7280;
 .empty {
   grid-column: 1 / -1;
   text-align: center;
-  padding: 60px 20px;
-  color: $muted;
-  font-size: 14px;
+  padding: $spacing-16 $spacing-5;
+  color: $muted-foreground;
+  @include text-sm;
 }
-
