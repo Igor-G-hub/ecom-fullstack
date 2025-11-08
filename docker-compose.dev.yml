@@ -57,6 +57,8 @@ services:
       NODE_ENV: ${NODE_ENV:-production}
       DATABASE_URL: ${DATABASE_URL}
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3001}
+      # Use localhost for internal API URL since we're using host network mode
+      API_INTERNAL_URL: ${API_INTERNAL_URL:-http://localhost:3001}
     volumes:
       - ./prisma:/app/prisma
 

@@ -3,8 +3,9 @@
 
 .sidebar {
   background: $card;
-  padding: 0;
-  border-radius: 0;
+  padding: $spacing-6;
+  border-radius: $radius;
+  border: 1px solid $border;
   display: flex;
   flex-direction: column;
   height: fit-content;

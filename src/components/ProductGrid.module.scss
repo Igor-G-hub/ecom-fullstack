@@ -4,6 +4,11 @@
 .mainContent {
   min-width: 0;
   overflow: hidden;
+  background: $card;
+  // padding: $spacing-6;
+  border-radius: $radius;
+  border: 1px solid $border;
+  height: fit-content;
 }
 
 .products {
