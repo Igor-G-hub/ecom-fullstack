@@ -33,6 +33,7 @@
 
 .logoText {
   @include text-xl;
+  font-family: $font-inter;
   font-weight: $font-weight-medium;
   color: $foreground;
   letter-spacing: -0.01em;
